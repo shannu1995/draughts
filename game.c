@@ -5,6 +5,7 @@
 void play_game(char * player_one, char * player_two, 
     struct result * outcome)
 {
+	/*Hello?*/
 	enum cell_contents gameboard[BOARDWIDTH][BOARDHEIGHT];
 	int r, q;
 	struct player red_player;
