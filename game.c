@@ -60,25 +60,29 @@ void player_turn(struct player * current, enum cell_contents board[][BOARDWIDTH]
 	token = strtok(NULL, "\0");
 	player_move.end.y = atoi(token);
 	
-	if(is_valid_move(player_move, current, board) == INVALID)
+	switch(is_valid_move(player_move, current, board))
 	{
-		printf("The move you entered was invalid; please try again\n");
-		player_turn(current, board);
+		case INVALID:
+		{
+			printf("The move you entered was invalid; please try again\n");
+			player_turn(current, board);
+			break;
+		}
+		case NORMAL:
+		{
+			board[player_move.end.y][player_move.end.x] = board[player_move.start.y][player_move.start.x];
+			board[player_move.start.y][player_move.start.x] = EMPTY;
+			display_gameboard(board);
+			break;
+		}
+		case ATTACK:
+		{
+			board[player_move.end.y][player_move.end.x] = board[player_move.start.y][player_move.start.x];
+			board[player_move.start.y][player_move.start.x] = EMPTY;
+			display_gameboard(board);
+			break;
+		}
 	}
-	
-	if(is_valid_move(player_move, current, board) == ATTACK)
-	{
-		printf("You attacked!\n");
-	}
-	
-	else
-	{
-		board[player_move.end.y][player_move.end.x] = board[player_move.start.y][player_move.start.x];
-		board[player_move.start.y][player_move.start.x] = EMPTY;
-		display_gameboard(board);
-	}
-	
-	
 }
 
 /* Requirement 4 - Tests to see whether a move is valid or not*/
